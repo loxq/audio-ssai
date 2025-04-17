@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 
 	"github.com/hajimehoshi/go-mp3"
 )
@@ -58,5 +59,6 @@ func streamHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.Write(pcmBuf)
+		time.Sleep(time.Duration(len(pcmBuf)*8*1e6/(SampleRate*16)) * time.Microsecond) // approx 128kbps pacing
 	}
 }
